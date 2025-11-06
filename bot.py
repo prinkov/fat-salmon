@@ -35,24 +35,21 @@ def app_page():
 
 # === Webhook endpoint ===
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
-async def webhook():
+def webhook():
     update = Update.de_json(request.get_json(force=True), application.bot)
-    await application.process_update(update)
+    import asyncio
+    asyncio.run(application.process_update(update))
     return "ok", 200
 
-# Проверка доступности
 @app.route("/")
 def index():
     return "Bot working"
 
-# === Запуск ===
 if __name__ == "__main__":
     print("Starting bot via webhook...")
-    # Настраиваем webhook у Telegram
     import asyncio
     async def setup():
         await application.bot.set_webhook(url=f"{APP_URL}/{BOT_TOKEN}")
     asyncio.run(setup())
 
-    # Flask слушает вебхук
     app.run(host="0.0.0.0", port=PORT)
