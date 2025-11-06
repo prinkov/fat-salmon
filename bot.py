@@ -20,7 +20,7 @@ application = Application.builder() \
 async def start(update: Update, context):
     keyboard = [[
         InlineKeyboardButton(
-            "🚀 Открыть приложение",
+            "🍣 Сделать заказ",
             web_app=WebAppInfo(url=f"{APP_URL}/app")
         )
     ]]
