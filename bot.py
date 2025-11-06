@@ -49,6 +49,7 @@ if __name__ == "__main__":
     print("Starting bot via webhook...")
     import asyncio
     async def setup():
+        await application.initialize()
         await application.bot.set_webhook(url=f"{APP_URL}/{BOT_TOKEN}")
     asyncio.run(setup())
 
