@@ -2,16 +2,24 @@ import os
 from flask import Flask, request, send_from_directory
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler
+from telegram.request import HTTPXRequest
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "8439338584:AAEdpDLA1Sehj04KJRtYFTkF6O5R1iwGNI4")
 APP_URL = "https://fat-salmon.onrender.com"  # 👈 твой домен Render
 PORT = 80
 
 # === Flask ===
 app = Flask(__name__)
 
-# === Telegram ===
-application = Application.builder().token(BOT_TOKEN).build()
+
+requestSet = HTTPXRequest(
+    connection_pool_size=10,
+    connect_timeout=20,
+    read_timeout=20,
+    write_timeout=20,
+    pool_timeout=10,
+)
+application = Application.builder().request(requestSet).token(BOT_TOKEN).concurrent_updates(False).build()
 
 # /start — одна кнопка
 async def start(update: Update, context):
