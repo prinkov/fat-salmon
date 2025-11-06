@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 from aiohttp import web
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import Application, CommandHandler
@@ -29,7 +31,6 @@ async def start(update: Update, context):
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-application.add_handler(CommandHandler("start", start))
 
 # --- Web server using aiohttp ---
 routes = web.RouteTableDef()
@@ -38,11 +39,21 @@ routes = web.RouteTableDef()
 async def index(request):
     return web.Response(text="Bot working", content_type="text/plain")
 
+FRONTEND_DIR = Path(__file__).parent / "frontend" / "out"
+
 @routes.get("/app")
-async def app_page(request):
-    # Можно отдавать реальный index.html из папки
-    with open("index.html", encoding="utf-8") as f:
-        return web.Response(text=f.read(), content_type="text/html")
+async def serve_app(request):
+    index_file = FRONTEND_DIR / "index.html"
+    if not index_file.exists():
+        return web.Response(text="Frontend not built", status=500)
+    return web.FileResponse(index_file)
+
+@routes.get("/app/{path:.*}")
+async def serve_static(request):
+    path = FRONTEND_DIR / request.match_info["path"]
+    if path.is_file():
+        return web.FileResponse(path)
+    return web.FileResponse(FRONTEND_DIR / "index.html")
 
 @routes.post(f"/{BOT_TOKEN}")
 async def webhook(request):
