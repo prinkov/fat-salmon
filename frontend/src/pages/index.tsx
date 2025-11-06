@@ -167,7 +167,7 @@ export default function Home() {
                           }
                           variant="outlined"
                         >
-                          Add to cart
+                          Добавить
                         </Button>
                       )}
                     </CardActions>

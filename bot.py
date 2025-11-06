@@ -37,7 +37,7 @@ routes = web.RouteTableDef()
 
 @routes.get("/")
 async def index(request):
-    return web.Response(text="Bot working", content_type="text/plain")
+    return web.Response(text="Bot working !1", content_type="text/plain")
 
 FRONTEND_DIR = Path(__file__).parent / "frontend" / "out"
 

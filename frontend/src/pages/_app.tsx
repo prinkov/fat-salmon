@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
                   variant="h5"
                   sx={{ flexGrow: 1, fontWeight: "bold", color: "white" }}
                 >
-                  Durger King 2.0
+                  Fat Salmon
                 </Typography>
 
                 <TonConnectButton />
