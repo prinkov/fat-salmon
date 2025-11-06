@@ -5,7 +5,7 @@ from telegram.ext import Application, CommandHandler
 
 # === настройки ===
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-PORT = int(os.getenv("PORT", 3000))
+PORT = int(os.getenv("PORT", 80))
 
 app = Flask(__name__)
 application = Application.builder().token(BOT_TOKEN).build()
