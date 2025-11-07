@@ -107,7 +107,7 @@ export default function Home() {
               >
                 <Card
                     sx={{
-                      height: 240,
+                      height: 250,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
@@ -118,7 +118,7 @@ export default function Home() {
                     image={product.image}
                     sx={{
                       p: 3,
-                      height: 140,
+                      height: 150,
                       objectFit: "cover", // обрезает аккуратно, не растягивая
                       borderBottom: "1px solid #eee",
                       borderRadius: theme.spacing(2),
