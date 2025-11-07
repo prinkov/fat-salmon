@@ -1,4 +1,6 @@
+import logging
 import os
+import sys
 from pathlib import Path
 
 from aiohttp import web
@@ -10,6 +12,19 @@ import asyncio
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 APP_URL = "https://fat-salmon.onrender.com"
 PORT = int(os.getenv("PORT", "80"))
+
+sys.stdout.reconfigure(line_buffering=True)
+
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+
+# Чтобы telegram и aiohttp писали в stdout
+logging.getLogger("telegram").setLevel(logging.INFO)
+logging.getLogger("telegram.ext").setLevel(logging.INFO)
+logging.getLogger("aiohttp").setLevel(logging.INFO)
 
 # --- Telegram setup ---
 requestSet = HTTPXRequest(connection_pool_size=10)
