@@ -50,6 +50,9 @@ async def start(update: Update, context):
 # --- Web server using aiohttp ---
 routes = web.RouteTableDef()
 
+application.add_handler(CommandHandler("start", start))
+
+
 @routes.get("/")
 async def index(request):
     return web.Response(text="Bot working !1", content_type="text/plain")
