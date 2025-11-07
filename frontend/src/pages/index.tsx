@@ -86,13 +86,13 @@ export default function Home() {
           sx={{
             display: "flex",
             flexWrap: "wrap",
-            gap: 2,
+            gap: 1,
           }}>
           {products.map((product) => (
             <Grid item
               key={product.name}
               sx={{
-              width: 220
+              width: 200
               }}>
               <Badge
                 badgeContent={
