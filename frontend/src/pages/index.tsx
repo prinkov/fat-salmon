@@ -86,13 +86,13 @@ export default function Home() {
           sx={{
             display: "flex",
             flexWrap: "wrap",
-            gap: 1,
+            gap: 2,
           }}>
           {products.map((product) => (
             <Grid item
               key={product.name}
               sx={{
-              width: 200
+              width: 220
               }}>
               <Badge
                 badgeContent={
@@ -107,7 +107,7 @@ export default function Home() {
               >
                 <Card
                     sx={{
-                      height: 255,
+                      height: 280,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
@@ -118,7 +118,7 @@ export default function Home() {
                     image={product.image}
                     sx={{
                       p: 3,
-                      height: 155,
+                       height: 160,
                       objectFit: "cover", // обрезает аккуратно, не растягивая
                       borderBottom: "1px solid #eee",
                       borderRadius: theme.spacing(2),
