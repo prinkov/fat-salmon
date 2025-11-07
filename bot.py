@@ -1,3 +1,4 @@
+import json
 import logging
 import mimetypes
 import os
@@ -88,6 +89,35 @@ async def webhook(request):
     update = Update.de_json(data, application.bot)
     await application.process_update(update)
     return web.Response(text="ok")
+
+
+@routes.post("/tonpay/webhook")
+async def tonpay_webhook(request):
+    data = await request.json()
+    invoice_id = data.get("invoiceId")
+    status = data.get("status")
+    amount = data.get("amount")
+    metadata = data.get("metadata")
+
+    logging.info(f"💸 TonPay webhook: invoice={invoice_id}, status={status}, amount={amount}")
+
+    if status == "PAID":
+        try:
+            # Парсим chat_id из metadata
+            if metadata:
+                meta = json.loads(metadata)
+                chat_id = meta.get("chat_id")
+                if chat_id:
+                    text = f"✅ Оплата получена!\n\nЗаказ #{invoice_id} на сумму {amount} TON принят 🍣"
+                    await application.bot.send_message(chat_id=chat_id, text=text)
+                    logging.info(f"📩 Уведомление отправлено пользователю {chat_id}")
+                else:
+                    logging.warning("⚠️ chat_id не найден в metadata")
+        except Exception as e:
+            logging.error(f"Ошибка при уведомлении пользователя: {e}")
+
+    return web.Response(text="ok")
+
 
 async def main():
     await application.initialize()

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import "@/styles/globals.css";
 import {
   AppBar,
@@ -8,9 +9,8 @@ import {
   Toolbar,
   Typography,
   createTheme,
-  useTheme,
 } from "@mui/material";
-import { TonConnectButton, TonConnectUIProvider } from "@tonconnect/ui-react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -35,6 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
       borderRadius: 8,
     },
   });
+
   return (
     <>
       <CssBaseline enableColorScheme />
@@ -59,11 +60,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 >
                   Fat Salmon
                 </Typography>
-
-                <TonConnectButton />
               </Toolbar>
             </AppBar>
-
             <Component {...pageProps} />
           </Box>
         </TonConnectUIProvider>

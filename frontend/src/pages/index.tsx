@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Head from "next/head";
 import {
   Badge,
@@ -13,7 +14,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { products } from "@/products";
-import TonLogo from "@/TonLogo";
 import { useReducer } from "react";
 import { useRouter } from "next/router";
 
@@ -69,95 +69,103 @@ export default function Home() {
     <>
       <Head>
         <title>Fat Salmon</title>
-        <meta name="description" content="Fat Salmon - Tbilisi" />
+        <meta
+            name="description"
+            content="Fat Salmon — доставка роллов в Тбилиси"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Box p={2} pb={theme.spacing(8)}>
         <Toolbar />
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 2,
+          }}>
           {products.map((product) => (
-            <>
-              <Grid item xs={6} sm={6} md={2} lg={2} key={product.name}>
-                <Badge
-                  badgeContent={
-                    cart.find((p: any) => p.name === product.name)?.quantity
-                  }
-                  color="primary"
-                  sx={{
-                    "& .MuiBadge-badge": {
-                      color: "white",
-                    },
-                  }}
+            <Grid item
+              key={product.name}
+              sx={{
+              width: 220
+              }}>
+              <Badge
+                badgeContent={
+                  cart.find((p: any) => p.name === product.name)?.quantity
+                }
+                color="primary"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    color: "white",
+                  },
+                }}
+              >
+                <Card
+                    sx={{
+                      height: 280,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
                 >
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      image={product.image}
-                      sx={{
-                        p: 3,
-                      }}
-                    />
+                  <CardMedia
+                    component="img"
+                    image={product.image}
+                    sx={{
+                      p: 3,
+                       height: 160,
+                      objectFit: "cover", // обрезает аккуратно, не растягивая
+                      borderBottom: "1px solid #eee",
+                      borderRadius: theme.spacing(2),
+                    }}
+                  />
 
-                    <CardContent
+                  <CardContent
+                    sx={{
+                            py: 1,
+                            flexGrow: 1,
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            textAlign: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
                       sx={{
-                        py: "8px !important",
+                        verticalAlign: "middle",
+                        fontWeight: 500,
                       }}
                     >
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          verticalAlign: "middle",
-                        }}
-                      >
-                        {product.name} - <b>{product.price}</b>{" "}
-                        <TonLogo
-                          width={theme.spacing(2)}
-                          height={theme.spacing(2)}
-                          fill={"#0088CC"}
-                        />
-                      </Typography>
-                    </CardContent>
+                      {product.name} — <b>{product.price} ₾</b>
+                    </Typography>
+                  </CardContent>
 
-                    <CardActions>
-                      {cart.find((p: any) => p.name === product.name) ? (
-                        <>
-                          <Button
-                            onClick={() =>
-                              setCart({
-                                type: "REMOVE_PRODUCT",
-                                name: product.name,
-                              })
-                            }
-                            variant="outlined"
-                            sx={{
-                              height: theme.spacing(4),
-                              width: "50%",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            -
-                          </Button>
+                  <CardActions>
+                    {cart.find((p: any) => p.name === product.name) ? (
+                      <>
+                        <Button
+                          onClick={() =>
+                            setCart({
+                              type: "REMOVE_PRODUCT",
+                              name: product.name,
+                            })
+                          }
+                          variant="outlined"
+                          sx={{
+                            height: theme.spacing(4),
+                            width: "50%",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          −
+                        </Button>
 
-                          <Button
-                            onClick={() =>
-                              setCart({
-                                type: "ADD_PRODUCT",
-                                product: product,
-                              })
-                            }
-                            variant="outlined"
-                            sx={{
-                              height: theme.spacing(4),
-                              width: "50%",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            +
-                          </Button>
-                        </>
-                      ) : (
                         <Button
                           onClick={() =>
                             setCart({
@@ -166,15 +174,33 @@ export default function Home() {
                             })
                           }
                           variant="outlined"
+                          sx={{
+                            height: theme.spacing(4),
+                            width: "50%",
+                            fontWeight: "bold",
+                          }}
                         >
-                          Добавить
+                          +
                         </Button>
-                      )}
-                    </CardActions>
-                  </Card>
-                </Badge>
-              </Grid>
-            </>
+                      </>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          setCart({
+                            type: "ADD_PRODUCT",
+                            product: product,
+                          })
+                        }
+                        variant="outlined"
+                        sx={{ fontWeight: 600 }}
+                      >
+                        Добавить
+                      </Button>
+                    )}
+                  </CardActions>
+                </Card>
+              </Badge>
+            </Grid>
           ))}
         </Grid>
       </Box>
@@ -190,6 +216,7 @@ export default function Home() {
             width: "auto",
             color: "white",
             bottom: theme.spacing(1),
+            fontWeight: 600,
           }}
           onClick={() => {
             if (typeof window !== "undefined") {
@@ -198,15 +225,14 @@ export default function Home() {
             }
           }}
         >
-          Checkout - {cart.length} item
-          {cart.length > 1 ? "s" : ""} for{" "}
+          Оплатить — {cart.length} {cart.length > 1 ? "товара" : "товар"} на{" "}
           {Math.round(
             cart.reduce(
               (acc: number, p: any) => acc + p.price * p.quantity,
               0
             ) * 100
           ) / 100}{" "}
-          TON
+          ₾
         </Button>
       )}
     </>
