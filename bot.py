@@ -1,4 +1,5 @@
 import logging
+import mimetypes
 import os
 import sys
 from pathlib import Path
@@ -72,6 +73,23 @@ async def serve_static(request):
     if path.is_file():
         return web.FileResponse(path)
     return web.FileResponse(FRONTEND_DIR / "index.html")
+
+@routes.get("/_next/{path:.*}")
+async def serve_next_static(request):
+    path = FRONTEND_DIR / "_next" / request.match_info["path"]
+    if path.exists():
+        mime = mimetypes.guess_type(str(path))[0] or "application/octet-stream"
+        return web.FileResponse(path, content_type=mime)
+    return web.Response(status=404)
+
+@routes.get(r"/{filename:\w+\.(?:png|jpg|jpeg|gif|webp|svg|ico)}")
+async def serve_root_images(request):
+    filename = request.match_info["filename"]
+    path = FRONTEND_DIR / filename
+    if path.exists():
+        mime = mimetypes.guess_type(str(path))[0] or "application/octet-stream"
+        return web.FileResponse(path, content_type=mime)
+    return web.Response(status=404)
 
 @routes.post(f"/{BOT_TOKEN}")
 async def webhook(request):
